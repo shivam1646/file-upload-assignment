@@ -8,7 +8,7 @@ class EmployeeRepository {
   }
 
   async getAll(limit, offset, filters) {
-    const [{count}] = await this._getModel(filters).count();
+    const [{ count }] = await this._getModel(filters).count();
     const data = await this._getModel(filters).offset(offset).limit(limit);
 
     const pages = Math.ceil(count / limit);

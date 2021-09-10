@@ -1,6 +1,8 @@
 const express = require('express');
 const log = require('loglevel');
 
+const config = require('./config');
+
 log.setLevel('INFO');
 
 const app = express();
@@ -16,6 +18,6 @@ app.get('*', (req, res) => {
   res.status(404).json({ success: false, message: 'Resource not found' });
 });
 
-app.listen(4001, () => {
+app.listen(config.PORT, () => {
   log.info('Query server started');
 });

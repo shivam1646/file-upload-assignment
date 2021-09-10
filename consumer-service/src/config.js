@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const config = {
+  PORT: process.env.PORT || 4002,
   DB: {
     CONNECTION_STRING: process.env.PG_CONNECTION_STRING
   },

@@ -1,6 +1,7 @@
 const express = require('express');
 const log = require('loglevel');
 
+const config = require('./config');
 const Consumer = require('./consumer');
 
 log.setLevel('INFO');
@@ -18,6 +19,6 @@ app.get('*', (req, res) => {
 const consumer = new Consumer();
 consumer.startConsumer.apply(consumer);
 
-app.listen(4002, () => {
+app.listen(config.PORT, () => {
   log.info('Consumer service is running...');
 });
