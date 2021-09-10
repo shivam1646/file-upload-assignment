@@ -6,6 +6,7 @@
 
 ## Produce data
 1. Upload file using `curl -k -X POST -F 'file=your_file_path' -v  http://localhost:4000/fileupload` or use Postman with `form-data` option.
+2. File provided in `producer-service/assets`.
 
 ## Query data
 1. With pagination `http://localhost:4001/employees?limit=10&page=10`
