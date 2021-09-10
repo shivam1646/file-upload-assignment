@@ -31,8 +31,8 @@ class EmployeeRepository {
           return;
         }
         index === 0
-        ? this.where(col, 'like', `%${filters[col]}%`)
-        : this.orWhere(col, 'like', `%${filters[col]}%`);
+        ? this.where(col, '~*', `${filters[col]}`)
+        : this.orWhere(col, '~*', `${filters[col]}`);
       });
     });
   }

@@ -25,17 +25,21 @@ class Consumer {
   async startConsumer() {
     try {
       await this.consumer.connect();
-      await this.consumer.subscribe({ topic: config.KAFKA.TOPIC });
+      await this.consumer.subscribe({ topic: config.KAFKA.TOPIC, fromBeginning: true });
 
       log.info('Consumer is listening');
 
-      await this.consumer.run({ eachBatch: this._processBatch.bind(this) });
+      await this.consumer.run({
+        autoCommit: false,
+        eachBatch: this._processBatch.bind(this),
+      });
     } catch (error) {
       log.error('Error occured');
+      this.consumer.disconnect();
     }
   }
 
-  async _processBatch({ batch, resolveOffset, heartbeat }) {
+  async _processBatch({ batch, resolveOffset, heartbeat, commitOffsetsIfNecessary, uncommittedOffsets }) {
     const { topic } = batch;
     this.consumer.pause([{ topic }]);
 
@@ -52,7 +56,7 @@ class Consumer {
       await resolveOffset(message.offset);
       await heartbeat();
     }
-
+    await commitOffsetsIfNecessary(uncommittedOffsets());
     this.consumer.resume([{ topic }]);
   }
 

@@ -40,10 +40,15 @@ class FileService {
   async _queueMessage(data) {
     log.info("Entering data into queue...");
 
-    await this.producer.send({
-      topic: config.KAFKA.TOPIC,
-      messages: _prepareMessage(data),
-    });
+    try {
+      await this.producer.send({
+        topic: config.KAFKA.TOPIC,
+        messages: _prepareMessage(data),
+      });
+    } catch (error) {
+      log.error('Error occured. Disconnecting producer.');
+      this.producer.disconnect();
+    }
   }
 }
 
